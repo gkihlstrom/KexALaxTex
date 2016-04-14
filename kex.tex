@@ -15,21 +15,21 @@ Financial mathematics is the use of advanced mathematical and statistical method
 
 Machine learning has been successfully used for time-series financial forecasting. Cao and Tays work on support vector machines (SVM) and artificial neural networks (ANN) cemented SVMs as an important tool for stock prediction. The SVM expanded upon to form a multiple-kernel based learning system for stock prediction (Fletcher, 2012) (Yeh, et al., 2010) and credit risk evaluation (Yu, et a.l, 2009). 
 
-There has been little research on the combination of machine learning and candlestick methods. Of the research that has been made on the subject only neural network algorithms have been tried, with various degree of success.
+There has been little research on the performance of various combinations of machine learning and technical analysis methods. The research that has been made on the subject is generally focused on one, or a few, lerning algorithms and little weight is put on the the importance of the choice of parameters. As such there is a gap of knowledge as to which parameters work well with which algorithms. It is our ambition to contribute to filling that gap by analysing the performance of a few selected algorithms from different machine learning paradigms with alternating input parameters.
 
 \subsection{Problem statement}
-What is the impact of using grouped data in candlestick form as input to machine learning algorithms compared to using unaltered time series?
+What is the performance of the SVM, ELM, Random-Forest, and Naive-bayes algorithms on financial data with respect to changes in price, volatility, trading volume, and different time intervals, as well as combinations of these?
 
 
 \section{Background}
-\subsection{Candlesticks}
-Lite om candlesticks och formationer formationer, g\"arna med bilder
-
-\subsection{Volatility}
+\subsection{Technical analysis}
+\subsubsection{Volatility}
 Volatility has been widely used in financial market prediction. Many models within mathematical finance, including the Black-Scholes model, use volatility as one of the main components for handeling pricing. Machine learning algorithms have been used to predict future volatility, including SVMs (Wang, et al. 2011), ELMs (Wang, et al. 2014), and regression trees (Audrino, et al. 2009).  However little research on the predictive capabilities of using volatility as an indicator for future market behavior has been done. In this paper we will examine how using volatility as a predictor, on several different machine learning algorithms, applied on stock price data influences the accuracy in prediction of future price developement. 
- 
+
+\subsubsection{Volume}
+The volume of trades, i.e. the number of trades done during the time interval of some underlying asset, is one of the main aspects of technical analysis. The general idea is that changes in price of the asset together with a small volume will have a different impact on the market than the same change in price associated with a larger trading volume. 
+
 \subsection{SVM}
-\subsubsection{Single kernel}
 The aim of a seperating hyperplane is to seperate the different classes of data using a hyperplane, while achieving the maximum margin between the closest data points of the different classes and the seperating plane. SVM is an extension of the seperating hyperplane idea by representing the data in higher dimensions to spread the distrinution of the low dimensional data. This can be summarized as the following optimization problem;
 \begin{center}
 $\min \frac{1}{2}\vec{w}^{T}\vec{w}$ \\
@@ -48,7 +48,6 @@ subject to $0 \leq \alpha_i \leq C, $
 \end{center}
 where $\kappa (\vec{x_i}, \vec{x_j}) = \Phi(\vec{x_i})^T \Phi(\vec{x_j})$ is the kernel. Once the optimization problem has been solved, i.e. the model has been trained, unseen data points, $\vec{x}$,  are classified with $\sum\limits_i \alpha_i t_i \kappa(\vec{x},\vec{x_i}) > 0$. [K\"ALLA P\AA\ ALLT DET H\"AR, TOG DET FR\AA N ML-KURSENS SLIDES]
 
-\subsubsection{Multiple kernel}
 
 \subsection{Random Forest}
 \subsubsection{Decision trees}
@@ -84,10 +83,16 @@ where $\vec{x} = (x_1, ..., x_k)$ is a $k$-dimensional data point, and $Y = \{1,
 \newpage
 
 \section{Method}
-The aim of this paper is to evaluate the influence of using a volatility measure as an indicator of future stock price developements. This will be done by running the different algorithms on sample data sets using firstly only past end-of-day (plus start-of-day??) stock prices and secondly on both price and volatility measure and hence comapring the results. In both cases the data from the X previous days will be used to predict wether the price of the next trading day will increase or decrease.
+The aim of this paper is to evaluate the influence of using a volatility and volume measure as an indicator of future stock price developements. This will be done by running the different algorithms on sample data sets using firstly only past end-of-day stock prices for different numer of days looking in the past. Then it will be also be run on price and volatility measure combined, price and volume combined, and lastly price, volatility and volume combined. 
+
+\subsection{Price}
+The price used will be normalized, i.e. every end-of-day stock price will in fact be a percentage of the start-of-day price.
 
 \subsection{Volatility measure}
-Due to the lack of precision data the volatility will have to be approximated. In this paper we will approximate the volatility by letting the highest and lowest prices of the trading day be parameters of the data used to train the machine learning algorithms.
+Due to the lack of precision data the volatility will have to be approximated. In this paper we will approximate the volatility by letting the highest and lowest prices of the trading day be parameters of the data used to train the machine learning algorithms. As with the price we also here use the percentage of the start-of-day price.
+
+\subsection{Volume}
+Volume data is readily availible and as such there is no need to approximate. The volume data is not normalized. 
 
 \subsection{Data sets}
 The algoithms will be run on tree datasets, the S\&P500 index, ASTOCK, and BSTOCK. The data sets contain daily trading information for the stocks from January 3 2000 to 27 March 2016[E DET R\"ATT DATUM?], including opening and closing prices, highest and lowest prices, and dividend adjusted price change. 
