@@ -1,6 +1,7 @@
 
 \documentclass{article}
-
+\usepackage[english]{babel}
+\usepackage{amsmath}
 
 \begin{document}
 
@@ -31,19 +32,26 @@ The volume of trades, i.e. the number of trades done during the time interval of
 
 \subsection{SVM}
 The aim of a seperating hyperplane is to seperate the different classes of data using a hyperplane, while achieving the maximum margin between the closest data points of the different classes and the seperating plane. SVM is an extension of the seperating hyperplane idea by representing the data in higher dimensions to spread the distrinution of the low dimensional data. This can be summarized as the following optimization problem;
+\begin{equation}
+\min \frac{1}{2}\vec{w}^{T}\vec{w}
+\end{equation} 
 \begin{center}
-$\min \frac{1}{2}\vec{w}^{T}\vec{w}$ \\
-subject to $t_i \vec{w}^{T} \Phi(\vec{x}_i)  \geq 1, $
+ subject to  $t_i \vec{w}^{T} \Phi(\vec{x}_i)  \geq 1$,  \\
 \end{center}
-where $\vec{w}$ is the weight vector of the hyperplane, $\vec{x}_i$ is the $ith$ training point, $t_i$ is the class of the $ith$ training point, and $\Phi(\vec{x})$ is the non-linear transformation used. This formulation is however often too rigid, and unable to find an optimal solution if there are data points from different classes intertwined. To deal with this problem slack variables are introduced and the problem is rewritten as;
+where $\vec{w}$ is the weight vector of the hyperplane, $\vec{x}_i$ is the $ith$ training point, $t_i$ is the class of the $ith$ training point, and $\Phi(\vec{x})$ is the non-linear transformation used. This formulation is however often too rigid, and unable to find an optimal solution if there are data points from different classes intertwined. To deal with this problem slack variables are introduced and the problem is rewritten as; 
+\newpage
+\begin{equation}
+\min \frac{1}{2}\vec{w}^{T}\vec{w} + C\sum\limits_i \zeta_i 
+\end{equation}
 \begin{center}
-$\min \frac{1}{2}\vec{w}^{T}\vec{w} + C\sum\limits_i \zeta_i $ \\
 subject to $t_i \vec{w}^{T} \Phi(\vec{x}_i)  \geq 1 - \zeta_i, $
 \end{center}
 where $\zeta_i$ are the slack variables and $C$ is a slack constant. Also this formulation can be restated, in the form of it's dual problem;
 
+\begin{equation}
+\max \sum\limits_i \alpha_i - \frac{1}{2}\sum\limits_{i,j} \alpha_i \alpha_j t_i t_j \kappa (\vec{x_i}, \vec{x_j}) 
+\end{equation}
 \begin{center}
-$\max \sum\limits_i \alpha_i - \frac{1}{2}\sum\limits_{i,j} \alpha_i \alpha_j t_i t_j \kappa (\vec{x_i}, \vec{x_j})$ \\
 subject to $0 \leq \alpha_i \leq C, $
 \end{center}
 where $\kappa (\vec{x_i}, \vec{x_j}) = \Phi(\vec{x_i})^T \Phi(\vec{x_j})$ is the kernel. Once the optimization problem has been solved, i.e. the model has been trained, unseen data points, $\vec{x}$,  are classified with $\sum\limits_i \alpha_i t_i \kappa(\vec{x},\vec{x_i}) > 0$. [K\"ALLA P\AA\ ALLT DET H\"AR, TOG DET FR\AA N ML-KURSENS SLIDES]
@@ -52,15 +60,15 @@ where $\kappa (\vec{x_i}, \vec{x_j}) = \Phi(\vec{x_i})^T \Phi(\vec{x_j})$ is the
 \subsection{Random Forest}
 \subsubsection{Decision trees}
 The decision tree classifier (also a regressor) constructs a logical sqeuent, in the form of a tree data structure. The idea is to identify the attribute, at the current node in the tree, on which one can gain the most information from splitting on. This is done by comparing the entropy of the data set before and after the split, i.e. the information gain of the split;
-\begin{center}
-$I(S, A) = Ent(S) - \sum\limits_{v \in Values(A)} \frac{|S_v|}{|S|} Ent(S_v),$
-\end{center}
+\begin{equation}
+I(S, A) = Ent(S) - \sum\limits_{v \in Values(A)} \frac{|S_v|}{|S|} Ent(S_v),
+\end{equation}
 where $S$ is the training set, $A$ is a attribute of the training set, and $S_v$ is the set after the split containing the value $v$ on attribute $A$. $Ent(S)$ is the entropy of the set S. Once the tree has been trained the sequent formed is used to classify unseen data points.
 \subsubsection{Bagging}
 Bootstrap aggregating (bagging) uses bootstrapped replicates of the training set to train several instances of and combine a simple classifier, $f_b$ to form a more powerful predictor, $f_{bag}$. This is done by creating $B$ bootstrapped tarining sets, $S_b$, by sampling with replacement from the given training set $S = \{ (\vec{x}_1, y_1), ..., (\vec{x}_m, y_m)\}$, where possibly $|S_b| > m$. The classifier $f_b$ is then trained using $S_b$, and unseen data points are classified using; 
-\begin{center}
-$f_{bag}(\vec{x}) = \max\limits_k \sum\limits_b Ind(f_b(\vec{x}) = k)$,
-\end{center}
+\begin{equation}
+f_{bag}(\vec{x}) = \max\limits_k \sum\limits_b Ind(f_b(\vec{x}) = k),
+\end{equation}
 where $k$ is the class, and $Ind(a = b) = 1$ if $a = b$ and $Ind(a = b) = 0$ if $a \ne b$.
 
 \subsubsection{Random forest}
@@ -68,22 +76,25 @@ The random forest method combines decision trees with bagging, i.e. it uses boot
 
 \subsection{Extreme learning machines}
 The extreme learning machine is a type of ANN, namely a single layer feedforward network (SLFN). The standard mathematical representation of an SLFN is;
-\begin{center}
-$\sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{x}_j)  = \sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{a}_i  \vec{x}_j + b_i)= t_j, j = 1...n$, 
-\end{center}
+\begin{equation}
+\sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{x}_j)  = \sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{a}_i  \vec{x}_j + b_i)= t_j, j = 1...n, 
+\end{equation}
 where $N$ is the number of nodes in the hidden layer, $\vec{a}_i$ is the is the input-weight vector for the $i$th node, $\vec{\beta}_i$ is the output-weight vector for the $i$th node, $b_i$ is the threshold of the $i$th node, and $f_i(\vec{x})$ is the activation function (or kernel in SVM terminology). This can in turn be written comapctly as $H\beta = T$, where $H$ is an $n \times N$ matrix and $H_{i, j} = f(\vec{a}_j\vec{x}_i + b_j)$, $\beta$ is a vector with $\beta_i^T$ in position $i$, and $T$ is a vector with the sample outputs. To train the classifier one initiates all $\vec{a}_i$ and $b_i$ to random values, and compute the output-weight vector $\hat{\beta}$ from $\hat\beta = H^+ T$, where $H^+$ is the Moore-Penrose pseudo-inverse of $H$.
 
 \subsection{Naive Bayes}
 The naive bayes classifier is a probability based classifier. The main idea is to not fit the $k$-dimensional data in to one probability distribution, but instead to fit $k$ one-dimensional distributions. In order to do this the features are regarded as if they were independent. Using the maximum a priori method (MAP), the naive bayes can be implemented accordingly;
 \begin{center}
-$Y_{MAP} = \arg \max_{y \in Y} P(y | x_1, ..., x_k) = arg \max_{y \in Y} \frac{ P( x_1, ..., x_k | y)P(y) }{P(x_1, ..., x_k)} = arg \max_{y \in Y} P(x_1, ..., x_k|y)P(y) ,$
+$Y_{MAP} = \arg \max_{y \in Y} P(y | x_1, ..., x_k) = arg \max_{y \in Y} \frac{ P( x_1, ..., x_k | y)P(y) }{P(x_1, ..., x_k)}=$
 \end{center}
+\begin{equation}
+ = arg \max_{y \in Y} P(x_1, ..., x_k|y)P(y) ,
+\end{equation}
 where $\vec{x} = (x_1, ..., x_k)$ is a $k$-dimensional data point, and $Y = \{1, 2, ...,y_n\}$ are the possible classes. Since the features are regarded as independent we are assuming that $P(x_1, ..., x_k| y) = \prod_{k=1}^{K} P(x_k |y).$ As such the classifier becomes $Y_{MAP} = arg \max_{y \in Y} P(y)\prod_{k=1}^{K}P(x_k|y)$.
 
 \newpage
 
 \section{Method}
-The aim of this paper is to evaluate the influence of using a volatility and volume measure as an indicator of future stock price developements. This will be done by running the different algorithms on sample data sets using firstly only past end-of-day stock prices for different numer of days looking in the past. Then it will be also be run on price and volatility measure combined, price and volume combined, and lastly price, volatility and volume combined. 
+The aim of this paper is to evaluate the influence of using a volatility and volume measure as an indicator of future stock price developements. This will be done by running the different algorithms on sample data sets using firstly only past end-of-day stock prices for different number of days looking in the past. Then it will be also be run on price and volatility measure combined, price and volume combined, and lastly price, volatility and volume measures combined. 
 
 \subsection{Price}
 The price used will be normalized, i.e. every end-of-day stock price will in fact be a percentage of the start-of-day price.
@@ -92,7 +103,10 @@ The price used will be normalized, i.e. every end-of-day stock price will in fac
 Due to the lack of precision data the volatility will have to be approximated. In this paper we will approximate the volatility by letting the highest and lowest prices of the trading day be parameters of the data used to train the machine learning algorithms. As with the price we also here use the percentage of the start-of-day price.
 
 \subsection{Volume}
-Volume data is readily availible and as such there is no need to approximate. The volume data is not normalized. 
+The volume parameter is also normalized. This is done by taking the average trading volume over the entire time interval and dividing each individual volume data point by this number. 
+
+\subsection{Days looking backwards}
+The algorithms are run on 5 data input using five different time aspects. These are looking backwards on the 2, 3, 5, 10, and 30 previous trading days. The various combinations mentioned above are implemented on each of theprevious days. This gives, as an example, nine features per data point for the algorithms running price and volatility (highest and lowest points) looking backwards three days.
 
 \subsection{Data sets}
 The algoithms will be run on tree datasets, the S\&P500 index, ASTOCK, and BSTOCK. The data sets contain daily trading information for the stocks from January 3 2000 to 27 March 2016[E DET R\"ATT DATUM?], including opening and closing prices, highest and lowest prices, and dividend adjusted price change. 
@@ -100,7 +114,44 @@ The algoithms will be run on tree datasets, the S\&P500 index, ASTOCK, and BSTOC
 \newpage
 
 \section{Experimental results}
-Resultaten fr\aa n vad vi ska g\"ora n\"ar vi gjort det.
+
+\subsection{SVM}
+\begin{table}[h]
+\begin{center}
+    \begin{tabular}{ | l | l |  l | l |  p{3cm} |}
+    \hline
+    Price & Volume & Volatility & Days looking frwd & Accuracy \\ \hline
+    Y & N & N & 2 & as\\ \hline
+    Y & N & N & 3 & as\\ \hline
+    Y & N & N & 5 & as\\ \hline
+    Y & N & N & 10 & as\\ \hline
+    Y & N & N & 30 & as\\ \hline
+    Y & Y & N & 2 & as\\ \hline
+    Y & Y & N & 3 & as\\ \hline
+    Y & Y & N & 5 & as\\ \hline
+    Y & Y & N & 10 & as\\ \hline
+    Y & Y & N & 30 & as\\ \hline
+    Y & N & Y & 2 & as\\ \hline
+    Y & N & Y & 3 & as\\ \hline
+    Y & N & Y & 5 & as\\ \hline
+    Y & N & Y & 10 & as\\ \hline
+    Y & N & Y & 30 & as\\ \hline
+    Y & Y & Y & 2 & as\\ \hline
+    Y & Y & Y & 3 & as\\ \hline
+    Y & Y & Y & 5 & as\\ \hline
+    Y & Y & Y & 10 & as\\ \hline
+    Y & Y & Y & 30 & as\\ 
+    \hline
+    \end{tabular}
+\caption{SVM prediction accuracy}
+\end{center}
+\end{table}
+\subsection{ELM}
+
+\subsection{Random Forest}
+
+\subsection{Naive-Bayes}
+
 \section{Discussion}
 Diskussion kring resultaten av vad vi skulle g\"ora (givetvis efter att vi gjort det).
 \section{Conclusions}
