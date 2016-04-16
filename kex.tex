@@ -2,19 +2,22 @@
 \documentclass{article}
 \usepackage[english]{babel}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[utf8]{inputenc}
 
 \begin{document}
 
 \section{Introduction}
 Forecasting the behavior of financial products is an important preoccupation for many professionals and laymen alike, as well as academics. Investment banks, hedge funds, and insurance companies spend significant time and effort in predicting changes in the properties, such as prices and risks, of stocks, bonds, options, etc. This interest in financial markets has for the last few decades driven the development of better tools for analyzing financial information. Most fruitful, historically, has perhaps the research in financial mathematics been. 
 
-Technical analysis is the study of past information to predict future values. Technical analysis is commonly used on financial markets and can be used on for example stock prices. Mathematical concepts are used, as an example ARMIA [KÄLLA], however the mathematical sophistication of these are generally low. Technical analysis also takes the form of grouping continuous data into discrete packets of data to visually summarize the data [KÄLLA].
+Technical analysis is the study of past information to predict future values. Technical analysis is commonly used on financial markets and can be used on for example stock prices. Mathematical concepts are used, as an example ARMIA [KÄLLA], however the mathematical sophistication of these are generally low. Technical analysis also takes the form of grouping continuous data into discrete packets of data to visually summarize the data, sometimes referred to as candlesticks [KÄLLA].
 
 Candlestick charts are frequently used in technical analysis to represent time series. Time series are divided into specific units, most commonly days, and transformed into “candlesticks”. Each candlestick holds information about the starting and final value of that time period as well as the highest and lowest levels reached in between. A candlestick can thereby be summarized as start and end values combined with the volatility of the underlying value.
 
 Financial mathematics is the use of advanced mathematical and statistical methods to price and minimize risk of financial products and portfolios. An example of this is Black-Scholes method for options pricing [KALLA] and the LIBOR market model for pricing interest rates derivatives [KALLA]. With the increasing access to computational power the use of artificial intelligence, particularly machine learning has become an important aspect of market prediction. 
 
-Machine learning has been successfully used for time-series financial forecasting. Cao and Tays work on support vector machines (SVM) and artificial neural networks (ANN) cemented SVMs as an important tool for stock prediction. The SVM expanded upon to form a multiple-kernel based learning system for stock prediction (Fletcher, 2012) (Yeh, et al., 2010) and credit risk evaluation (Yu, et a.l, 2009). 
+Machine learning has been successfully used for time-series financial forecasting. Support vector machines (SVM) and artifical neural networks (ANN) have been widely used  within academics to predict financial data. Cao and Tays work on SVMs and ANNs cemented SVMs as an important tool for stock prediction. The SVM has since been expanded upon to form a multiple-kernel based learning system for stock prediction (Fletcher, 2012) (Yeh, et al., 2010) and credit risk evaluation (Yu, et a.l, 2009), and the extreme learning machines (ELM), a type of ANN, has been developed and used for financial prediction (Ding, et al 2015). Simpler approches such as desicion trees have also been successfully used (Audrino, et al 2010), whereas there's very little research done on the Naive-Bayes classifier for stock data.
 
 There has been little research on the performance of various combinations of machine learning and technical analysis methods. The research that has been made on the subject is generally focused on one, or a few, lerning algorithms and little weight is put on the the importance of the choice of parameters. As such there is a gap of knowledge as to which parameters work well with which algorithms. It is our ambition to contribute to filling that gap by analysing the performance of a few selected algorithms from different machine learning paradigms with alternating input parameters.
 
@@ -24,6 +27,7 @@ What is the performance of the SVM, ELM, Random-Forest, and Naive-bayes algorith
 
 \section{Background}
 \subsection{Technical analysis}
+SKRIV GENERELLT (PARRE)
 \subsubsection{Volatility}
 Volatility has been widely used in financial market prediction. Many models within mathematical finance, including the Black-Scholes model, use volatility as one of the main components for handeling pricing. Machine learning algorithms have been used to predict future volatility, including SVMs (Wang, et al. 2011), ELMs (Wang, et al. 2014), and regression trees (Audrino, et al. 2009).  However little research on the predictive capabilities of using volatility as an indicator for future market behavior has been done. In this paper we will examine how using volatility as a predictor, on several different machine learning algorithms, applied on stock price data influences the accuracy in prediction of future price developement. 
 
@@ -31,7 +35,8 @@ Volatility has been widely used in financial market prediction. Many models with
 The volume of trades, i.e. the number of trades done during the time interval of some underlying asset, is one of the main aspects of technical analysis. The general idea is that changes in price of the asset together with a small volume will have a different impact on the market than the same change in price associated with a larger trading volume. 
 
 \subsection{SVM}
-The aim of a seperating hyperplane is to seperate the different classes of data using a hyperplane, while achieving the maximum margin between the closest data points of the different classes and the seperating plane. SVM is an extension of the seperating hyperplane idea by representing the data in higher dimensions to spread the distrinution of the low dimensional data. This can be summarized as the following optimization problem;
+The SVM algorithm is effectively trying to place a high-dimensional plane, or hyperplane, between the differently classified sets of datapoints and predicting new datapoints based on which side of the hyperplane they are located. Data is however often not dividable by a plane, which the SVM handles using slack variables and kernels. \\
+The aim of a basic seperating hyperplane algorithm is to seperate the different classes of data using a hyperplane, while achieving the maximum margin between the closest data points of the different classes and the seperating plane. SVM is an extension of the seperating hyperplane idea by representing the data in higher dimensions to spread the distrinution of the low dimensional data. This can be summarized as the following optimization problem;
 \begin{equation}
 \min \frac{1}{2}\vec{w}^{T}\vec{w}
 \end{equation} 
@@ -39,7 +44,6 @@ The aim of a seperating hyperplane is to seperate the different classes of data 
  subject to  $t_i \vec{w}^{T} \Phi(\vec{x}_i)  \geq 1$,  \\
 \end{center}
 where $\vec{w}$ is the weight vector of the hyperplane, $\vec{x}_i$ is the $ith$ training point, $t_i$ is the class of the $ith$ training point, and $\Phi(\vec{x})$ is the non-linear transformation used. This formulation is however often too rigid, and unable to find an optimal solution if there are data points from different classes intertwined. To deal with this problem slack variables are introduced and the problem is rewritten as; 
-\newpage
 \begin{equation}
 \min \frac{1}{2}\vec{w}^{T}\vec{w} + C\sum\limits_i \zeta_i 
 \end{equation}
@@ -58,6 +62,7 @@ where $\kappa (\vec{x_i}, \vec{x_j}) = \Phi(\vec{x_i})^T \Phi(\vec{x_j})$ is the
 
 
 \subsection{Random Forest}
+DUMB DOWN FOR LINUS (pARRE)
 \subsubsection{Decision trees}
 The decision tree classifier (also a regressor) constructs a logical sqeuent, in the form of a tree data structure. The idea is to identify the attribute, at the current node in the tree, on which one can gain the most information from splitting on. This is done by comparing the entropy of the data set before and after the split, i.e. the information gain of the split;
 \begin{equation}
@@ -75,13 +80,14 @@ where $k$ is the class, and $Ind(a = b) = 1$ if $a = b$ and $Ind(a = b) = 0$ if 
 The random forest method combines decision trees with bagging, i.e. it uses bootstrapping to construct several training sets and subsequently trains decision trees on these to create a classifier with greater accuracy than the individual decision trees. However, the method also involves randomness in the training of the trees. Instead of using the the information gain method described above, the splits of the trees are made on random attributes at each node.  [K\"ALLA P\AA\ ALLT DET H\"AR, TOG DET FR\AA N ML-KURSENS SLIDES]
 
 \subsection{Extreme learning machines}
-The extreme learning machine is a type of ANN, namely a single layer feedforward network (SLFN). The standard mathematical representation of an SLFN is;
+The extreme learning machine is a type of ANN, namely a single layer feedforward network (SLFN). This means that the algorithm takes input and pushes it forward to hidden nodes, who in turn outputs a classification for new datapoints. The standard mathematical representation of an SLFN is;
 \begin{equation}
 \sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{x}_j)  = \sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{a}_i  \vec{x}_j + b_i)= t_j, j = 1...n, 
 \end{equation}
-where $N$ is the number of nodes in the hidden layer, $\vec{a}_i$ is the is the input-weight vector for the $i$th node, $\vec{\beta}_i$ is the output-weight vector for the $i$th node, $b_i$ is the threshold of the $i$th node, and $f_i(\vec{x})$ is the activation function (or kernel in SVM terminology). This can in turn be written comapctly as $H\beta = T$, where $H$ is an $n \times N$ matrix and $H_{i, j} = f(\vec{a}_j\vec{x}_i + b_j)$, $\beta$ is a vector with $\beta_i^T$ in position $i$, and $T$ is a vector with the sample outputs. To train the classifier one initiates all $\vec{a}_i$ and $b_i$ to random values, and compute the output-weight vector $\hat{\beta}$ from $\hat\beta = H^+ T$, where $H^+$ is the Moore-Penrose pseudo-inverse of $H$.
+where $N$ is the number of nodes in the hidden layer, $\vec{a}_i$ is the is the input-weight vector for the $i$th node, $\vec{\beta}_i$ is the output-weight vector for the $i$th node, $b_i$ is the threshold of the $i$th node, and $f_i(\vec{x})$ is the activation function (or kernel in SVM terminology). This can in turn be written comapctly as $H\beta = T$, where $H$ is an $n \times N$ matrix and $H_{i, j} = f(\vec{a}_j\vec{x}_i + b_j)$, $\beta$ is a vector with $\beta_i^T$ in position $i$, and $T$ is a vector with the sample outputs. To train the classifier one initiates all $\vec{a}_i$ and $b_i$ to random values, and compute the output-weight vector $\hat{\beta}$ from $\hat\beta = H^+ T$, where $H^+$ is the Moore-Penrose pseudo-inverse of $H$ (Li, et al 2016).
 
 \subsection{Naive Bayes}
+DUMB DOWN FOR LINUS (PARRE)
 The naive bayes classifier is a probability based classifier. The main idea is to not fit the $k$-dimensional data in to one probability distribution, but instead to fit $k$ one-dimensional distributions. In order to do this the features are regarded as if they were independent. Using the maximum a priori method (MAP), the naive bayes can be implemented accordingly;
 \begin{center}
 $Y_{MAP} = \arg \max_{y \in Y} P(y | x_1, ..., x_k) = arg \max_{y \in Y} \frac{ P( x_1, ..., x_k | y)P(y) }{P(x_1, ..., x_k)}=$
@@ -90,6 +96,9 @@ $Y_{MAP} = \arg \max_{y \in Y} P(y | x_1, ..., x_k) = arg \max_{y \in Y} \frac{ 
  = arg \max_{y \in Y} P(x_1, ..., x_k|y)P(y) ,
 \end{equation}
 where $\vec{x} = (x_1, ..., x_k)$ is a $k$-dimensional data point, and $Y = \{1, 2, ...,y_n\}$ are the possible classes. Since the features are regarded as independent we are assuming that $P(x_1, ..., x_k| y) = \prod_{k=1}^{K} P(x_k |y).$ As such the classifier becomes $Y_{MAP} = arg \max_{y \in Y} P(y)\prod_{k=1}^{K}P(x_k|y)$.
+
+\subsection{Cross-validation}
+Cross-validation is used to ensure that the prediction accuracy of a learning algorithm is properly estimated. The data set is split into $p$ partitions and the algorithm is trained on$p-1$ of the subsets and then the predictive accuracy of the algorithm is tested on the remaining subset. This process is repeated $p$ times, called $p$-fold cross-validation, using every subset as the testing set once. The performance of the different tests are then averaged.
 
 \newpage
 
@@ -108,52 +117,293 @@ The volume parameter is also normalized. This is done by taking the average trad
 \subsection{Days looking backwards}
 The algorithms are run on 5 data input using five different time aspects. These are looking backwards on the 2, 3, 5, 10, and 30 previous trading days. The various combinations mentioned above are implemented on each of theprevious days. This gives, as an example, nine features per data point for the algorithms running price and volatility (highest and lowest points) looking backwards three days.
 
-\subsection{Data sets}
-The algoithms will be run on tree datasets, the S\&P500 index, ASTOCK, and BSTOCK. The data sets contain daily trading information for the stocks from January 3 2000 to 27 March 2016[E DET R\"ATT DATUM?], including opening and closing prices, highest and lowest prices, and dividend adjusted price change. 
+\subsection{Data set}
+The algoithms will be run on the S\&P500 index. The data set contains daily trading information for the stocks from January 3 2000 to 27 March 2016, including opening and closing prices, highest and lowest prices, and dividend adjusted price change. 
 
+\subsection{Accuracy} 
+To evaluate the performance of the algorithms we look at the prediction accuracy. Two different approaches to determining the significance ofthe accuracy are used. The ELM algorithm is run ten times on the different data sets and an average of the prediction accuracy is taken to ensure a representative value. On the other three algorithms ten-fold cross-validation is used. 
 \newpage
 
 \section{Experimental results}
-
+PRESENTERA SAKER(PARRE) \\
+ÄNDRA TILL BACKWARDS
 \subsection{SVM}
-\begin{table}[h]
+The following tables show the accuracy of the SVM using the different combinations of input features. The accuracy is given in percentages.
+\begin{table}[!h]
 \begin{center}
-    \begin{tabular}{ | l | l |  l | l |  p{3cm} |}
+    \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Price & Volume & Volatility & Days looking frwd & Accuracy \\ \hline
-    Y & N & N & 2 & as\\ \hline
-    Y & N & N & 3 & as\\ \hline
-    Y & N & N & 5 & as\\ \hline
-    Y & N & N & 10 & as\\ \hline
-    Y & N & N & 30 & as\\ \hline
-    Y & Y & N & 2 & as\\ \hline
-    Y & Y & N & 3 & as\\ \hline
-    Y & Y & N & 5 & as\\ \hline
-    Y & Y & N & 10 & as\\ \hline
-    Y & Y & N & 30 & as\\ \hline
-    Y & N & Y & 2 & as\\ \hline
-    Y & N & Y & 3 & as\\ \hline
-    Y & N & Y & 5 & as\\ \hline
-    Y & N & Y & 10 & as\\ \hline
-    Y & N & Y & 30 & as\\ \hline
-    Y & Y & Y & 2 & as\\ \hline
-    Y & Y & Y & 3 & as\\ \hline
-    Y & Y & Y & 5 & as\\ \hline
-    Y & Y & Y & 10 & as\\ \hline
-    Y & Y & Y & 30 & as\\ 
+    Days looking frwd & Accuracy \\ \hline
+    2 & 50.9679  \\ \hline
+    3 & 51.0539  \\ \hline
+    5 & 51.4468  \\ \hline
+    10 & 51.3135  \\ \hline
+    30 & 51.6408 \\ 
     \hline
     \end{tabular}
-\caption{SVM prediction accuracy}
+\caption{SVM prediction accuracy on price features}
 \end{center}
 \end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 51.2129  \\ \hline
+    3 & 51.6176  \\ \hline
+    5 & 51.2997  \\ \hline
+    10 & 51.3135  \\ \hline
+    30 & 51.3694 \\ 
+    \hline
+    \end{tabular}
+\caption{SVM prediction accuracy on price and volatility features}
+\end{center}
+\end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 51.1149  \\ \hline
+    3 & 51.4706  \\ \hline
+    5 & 51.2016  \\ \hline
+    10 & 50.9452  \\ \hline
+    30 & 51.3447 \\ 
+    \hline
+    \end{tabular}
+\caption{SVM prediction accuracy on price and volume features}
+\end{center}
+\end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 51.2374  \\ \hline
+    3 & 51.5441  \\ \hline
+    5 & 51.3242  \\ \hline
+    10 & 50.9944  \\ \hline
+    30 & 51.3694 \\ 
+    \hline
+    \end{tabular}
+\caption{SVM prediction accuracy on price, volatility and volume features}
+\end{center}
+\end{table}
+
+\includegraphics[width=1.25\textwidth, center]{svm_graph.png}
+
+\newpage
 \subsection{ELM}
+The following tables show the accuracy of the ELM using the different combinations of input features. The accuracy is given in percentages.
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 &  51.7 \\ \hline
+    3 & 53.05  \\ \hline
+    5 & 53.26  \\ \hline
+    10 & 51.91  \\ \hline
+    30 & 53.1 \\ 
+    \hline
+    \end{tabular}
+\caption{ELM prediction accuracy on price features}
+\end{center}
+\end{table}
 
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 54.15  \\ \hline
+    3 & 51.9  \\ \hline
+    5 & 51.63  \\ \hline
+    10 & 51.33  \\ \hline
+    30 & 52.61 \\ 
+    \hline
+    \end{tabular}
+\caption{ELM prediction accuracy on price and volatility features}
+\end{center}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 52.37  \\ \hline
+    3 & 51.63  \\ \hline
+    5 & 50.66  \\ \hline
+    10 & 51.33  \\ \hline
+    30 & 52.3 \\ 
+    \hline
+    \end{tabular}
+\caption{ELM prediction accuracy on price and volume features}
+\end{center}
+\end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 53.54  \\ \hline
+    3 & 53.61  \\ \hline
+    5 & 52.24  \\ \hline
+    10 & 52.91  \\ \hline
+    30 & 50.96 \\ 
+    \hline
+    \end{tabular}
+\caption{ELM prediction accuracy on price, volatility and volume features}
+\end{center}
+\end{table}
+\includegraphics[width=1.25\textwidth, center]{elm_graph.png}
+
+\newpage
 \subsection{Random Forest}
+The following tables show the accuracy of the Random-Forest algorithm using the different combinations of input features. The accuracy is given in percentages.
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 51.37  \\ \hline
+    3 & 50.01  \\ \hline
+    5 & 50.49  \\ \hline
+    10 & 50.87  \\ \hline
+    30 & 52.15 \\ 
+    \hline
+    \end{tabular}
+\caption{Random-Forest prediction accuracy on price features}
+\end{center}
+\end{table}
 
+\begin{table}[h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 52.07  \\ \hline
+    3 & 50.72  \\ \hline
+    5 & 51.21  \\ \hline
+    10 & 52.17  \\ \hline
+    30 & 52.02 \\ 
+    \hline
+    \end{tabular}
+\caption{Random-Forest prediction accuracy on price and volatility features}
+\end{center}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 51.47  \\ \hline
+    3 & 52.75  \\ \hline
+    5 & 51.78  \\ \hline
+    10 & 51.38  \\ \hline
+    30 & 51.7 \\ 
+    \hline
+    \end{tabular}
+\caption{Random-Forest prediction accuracy on price and volume features}
+\end{center}
+\end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 51.81  \\ \hline
+    3 & 51.68  \\ \hline
+    5 & 51.34  \\ \hline
+    10 & 52.14  \\ \hline
+    30 & 52.32 \\ 
+    \hline
+    \end{tabular}
+\caption{Random-Forest prediction accuracy on price, volatility and volume features}
+\end{center}
+\end{table}
+\includegraphics[width=1.25\textwidth, center]{random_forest_graph.png}
+
+\newpage
 \subsection{Naive-Bayes}
+The following tables show the accuracy of the Naive-Bayes algorithm using the different combinations of input features. The accuracy is given in percentages.
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 53.00  \\ \hline
+    3 & 52.73  \\ \hline
+    5 & 52.78  \\ \hline
+    10 & 53.13  \\ \hline
+    30 & 52.42 \\ 
+    \hline
+    \end{tabular}
+\caption{Naive-Bayes prediction accuracy on price features}
+\end{center}
+\end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 52.50  \\ \hline
+    3 & 52.56  \\ \hline
+    5 & 52.35  \\ \hline
+    10 & 52.12  \\ \hline
+    30 & 52.14 \\ 
+    \hline
+    \end{tabular}
+\caption{Naive-Bayes prediction accuracy on price and volatility features}
+\end{center}
+\end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 52.66  \\ \hline
+    3 & 52.30  \\ \hline
+    5 & 51.80  \\ \hline
+    10 & 51.74  \\ \hline
+    30 & 52.13 \\ 
+    \hline
+    \end{tabular}
+\caption{Naive-Bayes prediction accuracy on price and volume features}
+\end{center}
+\end{table}
+
+\begin{table}[!h]
+\begin{center}
+    \begin{tabular}{ | l | l | p{3cm} |}
+    \hline
+    Days looking frwd & Accuracy \\ \hline
+    2 & 53.01  \\ \hline
+    3 & 52.42  \\ \hline
+    5 & 51.93  \\ \hline
+    10 & 52.29  \\ \hline
+    30 & 52.69 \\ 
+    \hline
+    \end{tabular}
+\caption{Naive-Bayes prediction accuracy on price, volatility and volume features}
+\end{center}
+\end{table}
+
+\includegraphics[width=1.25\textwidth, center]{bayes_graph.png}
+
+\newpage
 
 \section{Discussion}
-Diskussion kring resultaten av vad vi skulle g\"ora (givetvis efter att vi gjort det).
+
 \section{Conclusions}
 H\"ar drar vi en slutsats baserat p\aa\ diskussionen kring resultaten av vad vi gjort.
 \end{document}
