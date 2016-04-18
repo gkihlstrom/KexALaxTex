@@ -14,6 +14,11 @@
 \maketitle
 \newpage
 
+\begin{abstract}
+Abstraktkonst.
+\end{abstract}
+\newpage
+
 \tableofcontents
 \newpage
 
@@ -447,8 +452,10 @@ All measures perform comparably for 2 and 30 days. The price only measure is out
 The price only measure performs better, or marginally worse, than all other combinations of measure for all days, with a sharp decline in accuracy from 10 day to 30 days. This suggests that the addition of features impairs the performance of the naive bayes classifier, for stock data. There is significant differnce in performance of the the volatility and volume measures, compared to the price only measure. However the combined price, volatility and volume measure outperforms the price only measure for 30 days. This could indicate that more data features increase accuracy for longer timescales. All meaures perform worse on the 30 day timeframe compared to the 2 day timeframe, signalling that even though more data features increase accuracy with more days, it might not be worth it. 
 
 \section{Conclusions}
-H\"ar drar vi en slutsats baserat p\aa\ diskussionen kring resultaten av vad vi gjort.
+It is difficult to draw any general conclusions that apply to all algorithms, instead we can conclude that the optimal combinations of features and days of the algorithms vary. For the SVM using additional measure, as opposed to only price data, is beneficial for short time frames. When using additional features, volatility should be used. However, as more days are used this addition of data will impair predictive performance. As with the SVM, the volatility measure outperforms volume for the ELM. Combing the two does seem to give a boost in performance for days 3 to 10. Unlike the SVM, for the ELM there are no trends in optimal performace over time. However, using the price and volatility measure for 2 days lookback outperforms all othe combinations and algorithms. For Random Forest the addition of feature parameters increases performance significantly. The volume measure perfroms well for shorter time frames, and the volatility for longerones. The volatility and volume measure is carried for days 3 and 5 by the volume measure and for days 10 and 30 by the volatility measure, to create a stable predictor over all time frames. As opposed to the Random Forest algorithm, the Naive-Bayes performs worse in general when additional features are added to the price only measure. 
 
+
+\newpage
 \section{Sources}
 Liu, X., Wang, l., Huang, G., Zhang, J., Yin, J. (2013). Multiple kernel extreme learning machine. 149 Neurocomputing, 253-264. \\
 Wang, F., Zhao, Z., Li, X. Yu, F., Zhang, H. (2014), Stock Volatility Prediction using Multi-Kernel Learning based Extreme Learning Machine. Beijing: 2014 International Joint Conference on Neural Networks, (SIDOR?). \\
@@ -457,12 +464,12 @@ James, G., Witten, D., Hastie, T., Tibshirani, R. An introduction to statistical
 Wang, B., Huang, H., Wang, X. A support vector machine based MSN model for financial short-term volatility prediction. (2013), 22 Nueral Computing \& Applications, 21-28. \\
 Ding, S., Zhao, H., Zhang, Y., Xu, X., Nie, R. Extreme learninh machine: algorithms, theory and applications. (2013), 44 Artificial Intelligence Review, 103-115. \\
 Audrino, F., Colangelo, D. Semi-parametric forecasts of the implied volatility surface using regression trees. (2009), 20 Statistical Computing, 421-434. \\
-Black, F., Shcoles, M. The Rpicing of Options and Corporate Liabilities. (1973), 81 Journal of Political Economy, 637-654. \\
+Black, F., Shcoles, M. The Pricing of Options and Corporate Liabilities. (1973), 81 Journal of Political Economy, 637-654. \\
 Bruce, A. The Market Model of Interest Rate Dynamics. (1997), 7 Mathematical Finance, 127-147. \\
 Li, X., Xie, H., Wang, R., Cai, Y., Coa, J., Wang, F., Min, H., Deng, X. Empirical analysis: stock market prediction via extreme learning machine. (2013), 27 Neural Computing \& Applications, 67-78. \\
 Cao, L., Tay, F. Financial Forecasting using Support Vector Machines. (2001), 10 Neural Computing \& Applications 184-192. \\
 Fletcher, T., Shawe-Taylor, J. Multiple Kernel Learning with Fisher Kernels for High-Frequency Currency Prediction. (2013), 42 Computational Economics, 217-240. \\
 Yu, L., Yue, W., Wang, S., Lai, K. Support vector machine based multiagent ensemble learning for credit risk evaluation. (2010), 37 Expert Systems \& Applications 1351-1360. \\
-Snopek, L. The Complete Guide to Portfolia Construction and Management. (2012) [SEN?] \\
+Snopek, L. The Complete Guide to Portfolio Construction and Management. (2012) [SEN?] \\
 
 \end{document}
