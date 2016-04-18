@@ -62,22 +62,28 @@ where $\kappa (\vec{x_i}, \vec{x_j}) = \Phi(\vec{x_i})^T \Phi(\vec{x_j})$ is the
 
 
 \subsection{Random Forest}
-DUMB DOWN FOR LINUS (pARRE)
+Random forest is a classification algorithm belonging to the tree-based machine learning algorithms. Tree-based methods attempt to divide the space of possible outcomes into generally simple areas. This is done by splitting the outcome space in two, one feature at a time. Tree-based methods are believed to reflect the way humans make decisions. They also allow for easy inference even in its simplest forms, but usually need to be improved in order to reach prediction accuracy rates comparable to other algorithms. Such improvement can be attained by implementing Random Forest.
+
+[KÄLLA ML-BOKEN]
 \subsubsection{Decision trees}
+KANSKE MÅSTE FÖRENKLA LITE HÄR
 The decision tree classifier (also a regressor) constructs a logical sqeuent, in the form of a tree data structure. The idea is to identify the attribute, at the current node in the tree, on which one can gain the most information from splitting on. This is done by comparing the entropy of the data set before and after the split, i.e. the information gain of the split;
 \begin{equation}
 I(S, A) = Ent(S) - \sum\limits_{v \in Values(A)} \frac{|S_v|}{|S|} Ent(S_v),
 \end{equation}
 where $S$ is the training set, $A$ is a attribute of the training set, and $S_v$ is the set after the split containing the value $v$ on attribute $A$. $Ent(S)$ is the entropy of the set S. Once the tree has been trained the sequent formed is used to classify unseen data points.
 \subsubsection{Bagging}
-Bootstrap aggregating (bagging) uses bootstrapped replicates of the training set to train several instances of and combine a simple classifier, $f_b$ to form a more powerful predictor, $f_{bag}$. This is done by creating $B$ bootstrapped tarining sets, $S_b$, by sampling with replacement from the given training set $S = \{ (\vec{x}_1, y_1), ..., (\vec{x}_m, y_m)\}$, where possibly $|S_b| > m$. The classifier $f_b$ is then trained using $S_b$, and unseen data points are classified using; 
+Decision trees can attain very different results even if they are trained on the same dataset making them unpredictable. [BOK] Bootstrap aggregation, bagging in short, is an attempt to make decision trees more predictable when trained on the same dataset in order to achieve consistent prediction accuracy rates. \\ \\
+Bagging uses bootstrapped replicates of the training set to train several instances of and combine a simple classifier, $f_b$ to form a more powerful predictor, $f_{bag}$. This is done by creating $B$ bootstrapped training sets, $S_b$, by sampling with replacement from the given training set $S = \{ (\vec{x}_1, y_1), ..., (\vec{x}_m, y_m)\}$, where possibly $|S_b| > m$. The classifier $f_b$ is then trained using $S_b$, and unseen data points are classified using; 
 \begin{equation}
 f_{bag}(\vec{x}) = \max\limits_k \sum\limits_b Ind(f_b(\vec{x}) = k),
 \end{equation}
 where $k$ is the class, and $Ind(a = b) = 1$ if $a = b$ and $Ind(a = b) = 0$ if $a \ne b$.
 
 \subsubsection{Random forest}
-The random forest method combines decision trees with bagging, i.e. it uses bootstrapping to construct several training sets and subsequently trains decision trees on these to create a classifier with greater accuracy than the individual decision trees. However, the method also involves randomness in the training of the trees. Instead of using the the information gain method described above, the splits of the trees are made on random attributes at each node.  [K\"ALLA P\AA\ ALLT DET H\"AR, TOG DET FR\AA N ML-KURSENS SLIDES]
+The random forest method is similar to bagged trees, it uses bootstrapping to construct several training sets and subsequently trains decision trees on these to create a classifier with greater accuracy than the individual decision trees. It differs from bagging in the way the predictors are used in splitting. Whenever a split in a tree is considered, only a random subset $n$ of the available predictors are provided as possible candidates for splitting. This is done to prevent the algorithm from creating very similar trees due to one particularly strong predictor always being chosen in the splits.
+ 
+[BOK] [K\"ALLA P\AA\ ALLT DET H\"AR, TOG DET FR\AA N ML-KURSENS SLIDES]
 
 \subsection{Extreme learning machines}
 The extreme learning machine is a type of ANN, namely a single layer feedforward network (SLFN). This means that the algorithm takes input and pushes it forward to hidden nodes, who in turn outputs a classification for new datapoints. The standard mathematical representation of an SLFN is;
@@ -125,15 +131,13 @@ To evaluate the performance of the algorithms we look at the prediction accuracy
 \newpage
 
 \section{Experimental results}
-PRESENTERA SAKER(PARRE) \\
-ÄNDRA TILL BACKWARDS
 \subsection{SVM}
 The following tables show the accuracy of the SVM using the different combinations of input features. The accuracy is given in percentages.
 \begin{table}[!h]
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 50.9679  \\ \hline
     3 & 51.0539  \\ \hline
     5 & 51.4468  \\ \hline
@@ -149,7 +153,7 @@ The following tables show the accuracy of the SVM using the different combinatio
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 51.2129  \\ \hline
     3 & 51.6176  \\ \hline
     5 & 51.2997  \\ \hline
@@ -165,7 +169,7 @@ The following tables show the accuracy of the SVM using the different combinatio
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 51.1149  \\ \hline
     3 & 51.4706  \\ \hline
     5 & 51.2016  \\ \hline
@@ -181,7 +185,7 @@ The following tables show the accuracy of the SVM using the different combinatio
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 51.2374  \\ \hline
     3 & 51.5441  \\ \hline
     5 & 51.3242  \\ \hline
@@ -195,6 +199,7 @@ The following tables show the accuracy of the SVM using the different combinatio
 
 \includegraphics[width=1.25\textwidth, center]{svm_graph.png}
 
+As seen, all configurations aside from price only lead to similar prediction accuracy rates. Accuracy rates range approximately between $51\%$ and  $51.7\%$. The highest score was attained by the 30-day price only configuration, followed by the 3-day price and volatility set. The price only configuration is the only one that appears to have more accurate results with the increase of lookback [ÄNDRA KANSKE] days.
 \newpage
 \subsection{ELM}
 The following tables show the accuracy of the ELM using the different combinations of input features. The accuracy is given in percentages.
@@ -202,7 +207,7 @@ The following tables show the accuracy of the ELM using the different combinatio
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 &  51.7 \\ \hline
     3 & 53.05  \\ \hline
     5 & 53.26  \\ \hline
@@ -218,7 +223,7 @@ The following tables show the accuracy of the ELM using the different combinatio
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 54.15  \\ \hline
     3 & 51.9  \\ \hline
     5 & 51.63  \\ \hline
@@ -234,7 +239,7 @@ The following tables show the accuracy of the ELM using the different combinatio
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 52.37  \\ \hline
     3 & 51.63  \\ \hline
     5 & 50.66  \\ \hline
@@ -250,7 +255,7 @@ The following tables show the accuracy of the ELM using the different combinatio
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 53.54  \\ \hline
     3 & 53.61  \\ \hline
     5 & 52.24  \\ \hline
@@ -263,6 +268,8 @@ The following tables show the accuracy of the ELM using the different combinatio
 \end{table}
 \includegraphics[width=1.25\textwidth, center]{elm_graph.png}
 
+Here, no one configuration of features outperforms any of the others. Accuracy rates range approximately between $51\%$ and $54\%$. The highest rate is achieved by the 2-day price and volatility set but has lower rates than both the price only and the complete configuration when the number of lookback days [ÄNDRA KANSKE] increases.
+
 \newpage
 \subsection{Random Forest}
 The following tables show the accuracy of the Random-Forest algorithm using the different combinations of input features. The accuracy is given in percentages.
@@ -270,7 +277,7 @@ The following tables show the accuracy of the Random-Forest algorithm using the 
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 51.37  \\ \hline
     3 & 50.01  \\ \hline
     5 & 50.49  \\ \hline
@@ -286,7 +293,7 @@ The following tables show the accuracy of the Random-Forest algorithm using the 
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 52.07  \\ \hline
     3 & 50.72  \\ \hline
     5 & 51.21  \\ \hline
@@ -302,7 +309,7 @@ The following tables show the accuracy of the Random-Forest algorithm using the 
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 51.47  \\ \hline
     3 & 52.75  \\ \hline
     5 & 51.78  \\ \hline
@@ -318,7 +325,7 @@ The following tables show the accuracy of the Random-Forest algorithm using the 
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 51.81  \\ \hline
     3 & 51.68  \\ \hline
     5 & 51.34  \\ \hline
@@ -338,7 +345,7 @@ The following tables show the accuracy of the Naive-Bayes algorithm using the di
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 53.00  \\ \hline
     3 & 52.73  \\ \hline
     5 & 52.78  \\ \hline
@@ -354,7 +361,7 @@ The following tables show the accuracy of the Naive-Bayes algorithm using the di
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 52.50  \\ \hline
     3 & 52.56  \\ \hline
     5 & 52.35  \\ \hline
@@ -370,7 +377,7 @@ The following tables show the accuracy of the Naive-Bayes algorithm using the di
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 52.66  \\ \hline
     3 & 52.30  \\ \hline
     5 & 51.80  \\ \hline
@@ -386,7 +393,7 @@ The following tables show the accuracy of the Naive-Bayes algorithm using the di
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
     \hline
-    Days looking frwd & Accuracy \\ \hline
+    Days looking backward & Accuracy \\ \hline
     2 & 53.01  \\ \hline
     3 & 52.42  \\ \hline
     5 & 51.93  \\ \hline
