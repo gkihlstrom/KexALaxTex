@@ -439,6 +439,7 @@ Accuracy rates range approximately between $51.5\%$ and $53\%$. The 10-day price
 \subsection{All algorithms}
 
 \includegraphics[width=1.25\textwidth, center]{all_algorithms.png}
+Accuracy ranges approximately from $51.5\%$ to $52.5\%$, making the gap narrow, compared to the individual results.
 
 \subsection{All configurations}
 
@@ -477,6 +478,7 @@ The accuracy range is almost exactly the same for the Naive Bayes Classifier as 
 Same as previously, the reliability of the Naive Bayes Classifier is safeguarded by 10-fold cross-validation. 
 
 \subsection{All algorithms}
+The price only configuration seems to be have improved accuracy rates with the increase of lookback days. Price and volatility together with the complete price, volatility and volume configurations attain the highest accuracy rates at the 2-day mark and then gradually worsen. The price and volatility as well as price and volume experience a slight recovery at 30 days but no similar effect in the complete configuration is seen. Price and volume appears to have the lowest consistent accuracy, being surpassed for all days by the complete configuration, except for 30 days where the two sets are reach very similar results.
 
 \subsection{All configurations}
 At the 2 days of lookback mark there are two clear groups, the ELM and Naive-Bayes significantly outperforming the Random Forest and SVM. As more days are added, the performance of Naive-Bayes and ELM decrease and the Random Forest performance increases, leaving all three on a comparable level. The SVM, however, only make negligible changes in performance. This indicates that Random Forest is better suited for longer timescales, whereas ELM and Naive-Bayes are better suited for shorter ones, and SVM performance is not significantly affected by addition of past data. 
