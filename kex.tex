@@ -148,7 +148,7 @@ The algoithms will be run on the S\&P500 index. The data set contains daily trad
 To evaluate the performance of the algorithms we look at the prediction accuracy. Two different approaches to determining the significance ofthe accuracy are used. The ELM algorithm is run ten times on the different data sets and an average of the prediction accuracy is taken to ensure a representative value. On the other three algorithms ten-fold cross-validation is used. 
 
 \subsection{Algorithmic specifications}
-For both ELM and SVM the radial basis kernel, $\Phi(\vec{x}) = e^{-\frac{(\vec{x} - \vec{k})^2}{r^2}}$, is used. For ELM 100 hidden nodes are used. VAD GJORDE VI MED NAIVE BAYES OCH RANDOM FOREST?! NEED INSTÄLLNINGAR FRÅN WEKA
+For both ELM and SVM the radial basis kernel, $\Phi(\vec{x}) = e^{-\frac{(\vec{x} - \vec{k})^2}{r^2}}$, is used. For ELM 100 hidden nodes are used. For Random Forest 100 trees are trained and there.
 
 \newpage
 
@@ -436,6 +436,14 @@ The following tables show the accuracy of the Naive-Bayes algorithm using the di
 
 Accuracy rates range approximately between $51.5\%$ and $53\%$. The 10-day price only configuration achieves the best accuracy, followed by a tie between the 2-day price only configuration and the 2-day complete configuration.
 
+\subsection{All algorithms}
+
+\includegraphics[width=1.25\textwidth, center]{all_algorithms.png}
+
+\subsection{All configuations}
+
+\includegraphics[width=1.25\textwidth, center]{all_configs.png}
+
 \newpage
 
 \section{Discussion}
@@ -466,6 +474,10 @@ The price only measure performs better, or marginally worse, than all other comb
 The accuracy range is almost exactly the same for the Naive Bayes Classifier as it is for the Random Forest algorithm, but reaches slightly higher rates for the price only configuration.
 \\ \\
 Same as previously, the reliability of the Naive Bayes Classifier is safeguarded by 10-fold cross-validation. 
+
+\subsection{All algorithms}
+
+\subsection{All configurations}
 
 \section{Conclusions}
 It is difficult to draw any general conclusions that apply to all algorithms, instead we can conclude that the optimal combinations of features and days of the algorithms vary. For the SVM using additional measure, as opposed to only price data, is beneficial for short time frames. When using additional features, volatility should be used. However, as more days are used this addition of data will impair predictive performance. As with the SVM, the volatility measure outperforms volume for the ELM. Combing the two does seem to give a boost in performance for days 3 to 10. Unlike the SVM, for the ELM there are no trends in optimal performace over time. However, using the price and volatility measure for 2 days lookback outperforms all othe combinations and algorithms. For Random Forest the addition of feature parameters increases performance significantly. The volume measure perfroms well for shorter time frames, and the volatility for longerones. The volatility and volume measure is carried for days 3 and 5 by the volume measure and for days 10 and 30 by the volatility measure, to create a stable predictor over all time frames. As opposed to the Random Forest algorithm, the Naive-Bayes performs worse in general when additional features are added to the price only measure. 
