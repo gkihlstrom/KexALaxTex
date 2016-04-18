@@ -148,7 +148,7 @@ The algoithms will be run on the S\&P500 index. The data set contains daily trad
 To evaluate the performance of the algorithms we look at the prediction accuracy. Two different approaches to determining the significance ofthe accuracy are used. The ELM algorithm is run ten times on the different data sets and an average of the prediction accuracy is taken to ensure a representative value. On the other three algorithms ten-fold cross-validation is used. 
 
 \subsection{Algorithmic specifications}
-For both ELM and SVM the radial basis kernel, $\Phi(\vec{x}) = e^{-\frac{(\vec{x} - \vec{k})^2}{r^2}}$, is used. For ELM 100 hidden nodes are used. For Random Forest 100 trees are trained with unlimited depths.
+For both ELM and SVM the radial basis kernel, $\Phi(\vec{x}) = e^{-\frac{(\vec{x} - \vec{k})^2}{r^2}}$, is used. For ELM 100 hidden nodes are used. For Random Forest 100 trees are trained with unlimited depths. For Naive-Bayes and Random Forest the machine learning toolkit WEKA is used. For the SVM implementation LibSVM is used. 
 
 \newpage
 
