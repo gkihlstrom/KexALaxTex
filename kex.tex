@@ -8,14 +8,23 @@
 
 \begin{document}
 
+\title{Technical analysis inspired machine learning for stock markets}
+\author{Gustav Kihlström \& Patryk Przybysz}
+\date{18/04/2016}
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
 \section{Introduction}
 Forecasting the behavior of financial products is an important preoccupation for many professionals and laymen alike, as well as academics. Investment banks, hedge funds, and insurance companies spend significant time and effort in predicting changes in the properties, such as prices and risks, of stocks, bonds, options, etc. This interest in financial markets has for the last few decades driven the development of better tools for analyzing financial information. Most fruitful, historically, has perhaps the research in financial mathematics been. 
 
-Technical analysis is the study of past information to predict future values. Technical analysis is commonly used on financial markets and can be used on for example stock prices. Mathematical concepts are used, as an example ARMIA [KÄLLA], however the mathematical sophistication of these are generally low. Technical analysis also takes the form of grouping continuous data into discrete packets of data to visually summarize the data, sometimes referred to as candlesticks [KÄLLA].
+Technical analysis is the study of past information to predict future values. Technical analysis is commonly used on financial markets and can be used on for example stock prices. Mathematical concepts are used, as an example the average moving index, however the mathematical sophistication of these are generally low. Technical analysis also takes the form of grouping continuous data into discrete packets of data to visually summarize the data, sometimes referred to as candlesticks.
 
 Candlestick charts are frequently used in technical analysis to represent time series. Time series are divided into specific units, most commonly days, and transformed into “candlesticks”. Each candlestick holds information about the starting and final value of that time period as well as the highest and lowest levels reached in between. A candlestick can thereby be summarized as start and end values combined with the volatility of the underlying value.
 
-Financial mathematics is the use of advanced mathematical and statistical methods to price and minimize risk of financial products and portfolios. An example of this is Black-Scholes method for options pricing [KALLA] and the LIBOR market model for pricing interest rates derivatives [KALLA]. With the increasing access to computational power the use of artificial intelligence, particularly machine learning has become an important aspect of market prediction. 
+Financial mathematics is the use of advanced mathematical and statistical methods to price and minimize risk of financial products and portfolios. An example of this is Black-Scholes method for options pricing (Black, et al 1973) and the LIBOR market model for pricing interest rates derivatives (Bruce, et al. 1997). With the increasing access to computational power the use of artificial intelligence, particularly machine learning has become an important aspect of market prediction. 
 
 Machine learning has been successfully used for time-series financial forecasting. Support vector machines (SVM) and artifical neural networks (ANN) have been widely used  within academics to predict financial data. Cao and Tays work on SVMs and ANNs cemented SVMs as an important tool for stock prediction. The SVM has since been expanded upon to form a multiple-kernel based learning system for stock prediction (Fletcher, 2012) (Yeh, et al., 2010) and credit risk evaluation (Yu, et a.l, 2009), and the extreme learning machines (ELM), a type of ANN, has been developed and used for financial prediction (Ding, et al 2015). Simpler approches such as desicion trees have also been successfully used (Audrino, et al 2010), whereas there's very little research done on the Naive-Bayes classifier for stock data.
 
@@ -27,7 +36,14 @@ What is the performance of the SVM, ELM, Random-Forest, and Naive-bayes algorith
 
 \section{Background}
 \subsection{Technical analysis}
-SKRIV GENERELLT (PARRE)
+Technical analysis is a method for anticipating market price changes by studying historic data for that market. It primarily focuses on past price levels, but trading volumes are used as well. The fundamental assumption of technical analysis is that market prices reflect all available information (Snopek, 2012) separating it from other security analysis methodologies such as fundamental analysis, where the state of the underlying asset is ascertained by reviewing its financial statements. This reflection is not seen as perfect because the relevant information might not always be wholly available due to, for example, insider trading (Snopek, 2012). 
+\\
+According to technical analysis, prices move in distinct trends. A trend is bullish if the highest and lowest price levels for a security are gradually higher and bearish if the opposite is true. A flat trend occurs when price levels stay the same during a longer time interval.
+\\
+A third concept of technical analysis is that history repeats itself and "the future is just a repetition of the past" [inre källa från källan] and so past errors and events, such as market crashes or speculative bubbles, might be repeated by new generations.
+\\
+There is no consensus whether technical analysis can be effectively used as a investment strategy. Studies have been made that show technical analysis to be no better than simply buying a security and holding it until an opportune time, without any portfolio strategy.
+
 \subsubsection{Volatility}
 Volatility has been widely used in financial market prediction. Many models within mathematical finance, including the Black-Scholes model, use volatility as one of the main components for handeling pricing. Machine learning algorithms have been used to predict future volatility, including SVMs (Wang, et al. 2011), ELMs (Wang, et al. 2014), and regression trees (Audrino, et al. 2009).  However little research on the predictive capabilities of using volatility as an indicator for future market behavior has been done. In this paper we will examine how using volatility as a predictor, on several different machine learning algorithms, applied on stock price data influences the accuracy in prediction of future price developement. 
 
@@ -50,7 +66,7 @@ where $\vec{w}$ is the weight vector of the hyperplane, $\vec{x}_i$ is the $ith$
 \begin{center}
 subject to $t_i \vec{w}^{T} \Phi(\vec{x}_i)  \geq 1 - \zeta_i, $
 \end{center}
-where $\zeta_i$ are the slack variables and $C$ is a slack constant. Also this formulation can be restated, in the form of it's dual problem;
+where $\zeta_i$ are the slack variables and $C$ is a slack constant (James, G. et al, 2014). Also this formulation can be restated, in the form of it's dual problem;
 
 \begin{equation}
 \max \sum\limits_i \alpha_i - \frac{1}{2}\sum\limits_{i,j} \alpha_i \alpha_j t_i t_j \kappa (\vec{x_i}, \vec{x_j}) 
@@ -58,13 +74,12 @@ where $\zeta_i$ are the slack variables and $C$ is a slack constant. Also this f
 \begin{center}
 subject to $0 \leq \alpha_i \leq C, $
 \end{center}
-where $\kappa (\vec{x_i}, \vec{x_j}) = \Phi(\vec{x_i})^T \Phi(\vec{x_j})$ is the kernel. Once the optimization problem has been solved, i.e. the model has been trained, unseen data points, $\vec{x}$,  are classified with $\sum\limits_i \alpha_i t_i \kappa(\vec{x},\vec{x_i}) > 0$. [K\"ALLA P\AA\ ALLT DET H\"AR, TOG DET FR\AA N ML-KURSENS SLIDES]
+where $\kappa (\vec{x_i}, \vec{x_j}) = \Phi(\vec{x_i})^T \Phi(\vec{x_j})$ is the kernel. Once the optimization problem has been solved, i.e. the model has been trained, unseen data points, $\vec{x}$,  are classified with $\sum\limits_i \alpha_i t_i \kappa(\vec{x},\vec{x_i}) > 0$. 
 
 
 \subsection{Random Forest}
-Random forest is a classification algorithm belonging to the tree-based machine learning algorithms. Tree-based methods attempt to divide the space of possible outcomes into generally simple areas. This is done by splitting the outcome space in two, one feature at a time. Tree-based methods are believed to reflect the way humans make decisions. They also allow for easy inference even in its simplest forms, but usually need to be improved in order to reach prediction accuracy rates comparable to other algorithms. Such improvement can be attained by implementing Random Forest.
+Random forest is a classification algorithm belonging to the tree-based machine learning algorithms. Tree-based methods attempt to divide the space of possible outcomes into generally simple areas. This is done by splitting the outcome space in two, one feature at a time. Tree-based methods are believed to reflect the way humans make decisions. They also allow for easy inference even in its simplest forms, but usually need to be improved in order to reach prediction accuracy rates comparable to other algorithms (James, G. et al, 2014). Such improvement can be attained by implementing Random Forest.
 
-[KÄLLA ML-BOKEN]
 \subsubsection{Decision trees}
 KANSKE MÅSTE FÖRENKLA LITE HÄR
 The decision tree classifier (also a regressor) constructs a logical sqeuent, in the form of a tree data structure. The idea is to identify the attribute, at the current node in the tree, on which one can gain the most information from splitting on. This is done by comparing the entropy of the data set before and after the split, i.e. the information gain of the split;
@@ -81,27 +96,25 @@ f_{bag}(\vec{x}) = \max\limits_k \sum\limits_b Ind(f_b(\vec{x}) = k),
 where $k$ is the class, and $Ind(a = b) = 1$ if $a = b$ and $Ind(a = b) = 0$ if $a \ne b$.
 
 \subsubsection{Random forest}
-The random forest method is similar to bagged trees, it uses bootstrapping to construct several training sets and subsequently trains decision trees on these to create a classifier with greater accuracy than the individual decision trees. It differs from bagging in the way the predictors are used in splitting. Whenever a split in a tree is considered, only a random subset $n$ of the available predictors are provided as possible candidates for splitting. This is done to prevent the algorithm from creating very similar trees due to one particularly strong predictor always being chosen in the splits.
+The random forest method is similar to bagged trees, it uses bootstrapping to construct several training sets and subsequently trains decision trees on these to create a classifier with greater accuracy than the individual decision trees. It differs from bagging in the way the predictors are used in splitting. Whenever a split in a tree is considered, only a random subset $n$ of the available predictors are provided as possible candidates for splitting (James, G. et al, 2014). This is done to prevent the algorithm from creating very similar trees due to one particularly strong predictor always being chosen in the splitting process.
  
-[BOK] [K\"ALLA P\AA\ ALLT DET H\"AR, TOG DET FR\AA N ML-KURSENS SLIDES]
 
 \subsection{Extreme learning machines}
 The extreme learning machine is a type of ANN, namely a single layer feedforward network (SLFN). This means that the algorithm takes input and pushes it forward to hidden nodes, who in turn outputs a classification for new datapoints. The standard mathematical representation of an SLFN is;
 \begin{equation}
 \sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{x}_j)  = \sum\limits_{i = 1}^N \vec{\beta}_i f_i (\vec{a}_i  \vec{x}_j + b_i)= t_j, j = 1...n, 
 \end{equation}
-where $N$ is the number of nodes in the hidden layer, $\vec{a}_i$ is the is the input-weight vector for the $i$th node, $\vec{\beta}_i$ is the output-weight vector for the $i$th node, $b_i$ is the threshold of the $i$th node, and $f_i(\vec{x})$ is the activation function (or kernel in SVM terminology). This can in turn be written comapctly as $H\beta = T$, where $H$ is an $n \times N$ matrix and $H_{i, j} = f(\vec{a}_j\vec{x}_i + b_j)$, $\beta$ is a vector with $\beta_i^T$ in position $i$, and $T$ is a vector with the sample outputs. To train the classifier one initiates all $\vec{a}_i$ and $b_i$ to random values, and compute the output-weight vector $\hat{\beta}$ from $\hat\beta = H^+ T$, where $H^+$ is the Moore-Penrose pseudo-inverse of $H$ (Li, et al 2016).
+where $N$ is the number of nodes in the hidden layer, $\vec{a}_i$ is the is the input-weight vector for the $i$th node, $\vec{\beta}_i$ is the output-weight vector for the $i$th node, $b_i$ is the threshold of the $i$th node, and $f_i(\vec{x})$ is the activation function (or kernel in SVM terminology) (Liu, X, et al. 2013). This can in turn be written comapctly as $H\beta = T$, where $H$ is an $n \times N$ matrix and $H_{i, j} = f(\vec{a}_j\vec{x}_i + b_j)$, $\beta$ is a vector with $\beta_i^T$ in position $i$, and $T$ is a vector with the sample outputs. To train the classifier one initiates all $\vec{a}_i$ and $b_i$ to random values, and compute the output-weight vector $\hat{\beta}$ from $\hat\beta = H^+ T$, where $H^+$ is the Moore-Penrose pseudo-inverse of $H$ (Li, X. et al 2016).
 
 \subsection{Naive Bayes}
-DUMB DOWN FOR LINUS (PARRE)
-The naive bayes classifier is a probability based classifier. The main idea is to not fit the $k$-dimensional data in to one probability distribution, but instead to fit $k$ one-dimensional distributions. In order to do this the features are regarded as if they were independent. Using the maximum a priori method (MAP), the naive bayes can be implemented accordingly;
+The naive bayes classifier is a probability based classifier based on Bayes' Theorem. The main idea is to, instead of fitting $k$-dimensional data in to one probability distribution, to fit the data into $k$ separate, one-dimensional  distributions. In order to use the algorithm, a critical assumption has to be made, namely that the features are regarded as independent. This assumption is what makes this algorothm 'naive'. Using the maximum a priori method (MAP), the naive bayes can be implemented as follows:
 \begin{center}
 $Y_{MAP} = \arg \max_{y \in Y} P(y | x_1, ..., x_k) = arg \max_{y \in Y} \frac{ P( x_1, ..., x_k | y)P(y) }{P(x_1, ..., x_k)}=$
 \end{center}
 \begin{equation}
  = arg \max_{y \in Y} P(x_1, ..., x_k|y)P(y) ,
 \end{equation}
-where $\vec{x} = (x_1, ..., x_k)$ is a $k$-dimensional data point, and $Y = \{1, 2, ...,y_n\}$ are the possible classes. Since the features are regarded as independent we are assuming that $P(x_1, ..., x_k| y) = \prod_{k=1}^{K} P(x_k |y).$ As such the classifier becomes $Y_{MAP} = arg \max_{y \in Y} P(y)\prod_{k=1}^{K}P(x_k|y)$.
+where $\vec{x} = (x_1, ..., x_k)$ is a $k$-dimensional data point, and $Y = \{1, 2, ...,y_n\}$ are the possible classes. Since the features are regarded as independent we are assuming that $P(x_1, ..., x_k| y) = \prod_{k=1}^{K} P(x_k |y).$ As such the classifier becomes $Y_{MAP} = arg \max_{y \in Y} P(y)\prod_{k=1}^{K}P(x_k|y)$ (James, G. et al, 2014).
 
 \subsection{Cross-validation}
 Cross-validation is used to ensure that the prediction accuracy of a learning algorithm is properly estimated. The data set is split into $p$ partitions and the algorithm is trained on$p-1$ of the subsets and then the predictive accuracy of the algorithm is tested on the remaining subset. This process is repeated $p$ times, called $p$-fold cross-validation, using every subset as the testing set once. The performance of the different tests are then averaged.
@@ -128,6 +141,10 @@ The algoithms will be run on the S\&P500 index. The data set contains daily trad
 
 \subsection{Accuracy} 
 To evaluate the performance of the algorithms we look at the prediction accuracy. Two different approaches to determining the significance ofthe accuracy are used. The ELM algorithm is run ten times on the different data sets and an average of the prediction accuracy is taken to ensure a representative value. On the other three algorithms ten-fold cross-validation is used. 
+
+\subsection{Algorithmic specifications}
+For both ELM and SVM the radial basis kernel, $\Phi(\vec{x}) = e^{-\frac{(\vec{x} - \vec{k})^2}{r^2}}$, is used. For ELM 100 hidden nodes are used. VAD GJORDE VI MED NAIVE BAYES OCH RANDOM FOREST?! NEED INSTÄLLNINGAR FRÅN WEKA
+
 \newpage
 
 \section{Experimental results}
@@ -203,6 +220,7 @@ As seen, all configurations aside from price only lead to similar prediction acc
 \newpage
 \subsection{ELM}
 The following tables show the accuracy of the ELM using the different combinations of input features. The accuracy is given in percentages.
+\\
 \begin{table}[!h]
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
@@ -268,11 +286,12 @@ The following tables show the accuracy of the ELM using the different combinatio
 \end{table}
 \includegraphics[width=1.25\textwidth, center]{elm_graph.png}
 
-Here, no one configuration of features outperforms any of the others. Accuracy rates range approximately between $51\%$ and $54\%$. The highest rate is achieved by the 2-day price and volatility set but has lower rates than both the price only and the complete configuration when the number of lookback days [ÄNDRA KANSKE] increases.
+Here, no one configuration of features consistently outperforms any of the others. Accuracy rates range approximately between $51\%$ and $54\%$. The highest rate is achieved by the 2-day price and volatility set but has lower rates than both the price only and the complete configuration when the number of lookback days [ÄNDRA KANSKE] increases.
 
 \newpage
 \subsection{Random Forest}
 The following tables show the accuracy of the Random-Forest algorithm using the different combinations of input features. The accuracy is given in percentages.
+\\
 \begin{table}[!h]
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
@@ -338,9 +357,12 @@ The following tables show the accuracy of the Random-Forest algorithm using the 
 \end{table}
 \includegraphics[width=1.25\textwidth, center]{random_forest_graph.png}
 
+Accuracy rates range approximately between $50\%$ and $53\%$. All configurations except price and volume follow a similar pattern. The 3-day price and volume achieves the best accuracy, followed by the 30-day price volatility and volume configuration.
+
 \newpage
 \subsection{Naive-Bayes}
 The following tables show the accuracy of the Naive-Bayes algorithm using the different combinations of input features. The accuracy is given in percentages.
+\\
 \begin{table}[!h]
 \begin{center}
     \begin{tabular}{ | l | l | p{3cm} |}
@@ -407,6 +429,8 @@ The following tables show the accuracy of the Naive-Bayes algorithm using the di
 
 \includegraphics[width=1.25\textwidth, center]{bayes_graph.png}
 
+Accuracy rates range approximately between $51.5\%$ and $53\%$. The 10-day price only configuration achieves the best accuracy, followed by a tie between the 2-day price only configuration and the 2-day complete configuration.
+
 \newpage
 
 \section{Discussion}
@@ -424,4 +448,21 @@ The price only measure performs better, or marginally worse, than all other comb
 
 \section{Conclusions}
 H\"ar drar vi en slutsats baserat p\aa\ diskussionen kring resultaten av vad vi gjort.
+
+\section{Sources}
+Liu, X., Wang, l., Huang, G., Zhang, J., Yin, J. (2013). Multiple kernel extreme learning machine. 149 Neurocomputing, 253-264. \\
+Wang, F., Zhao, Z., Li, X. Yu, F., Zhang, H. (2014), Stock Volatility Prediction using Multi-Kernel Learning based Extreme Learning Machine. Beijing: 2014 International Joint Conference on Neural Networks, (SIDOR?). \\
+Yeh, C., Huang, C., Lee, S. A multuple-kernel support vector regression approach for stock market price forecasting. (2011), 38 Expert Systems with Applications, 2177-2186. \\
+James, G., Witten, D., Hastie, T., Tibshirani, R. An introduction to statistical learning [BOK, HUR?!] \\
+Wang, B., Huang, H., Wang, X. A support vector machine based MSN model for financial short-term volatility prediction. (2013), 22 Nueral Computing \& Applications, 21-28. \\
+Ding, S., Zhao, H., Zhang, Y., Xu, X., Nie, R. Extreme learninh machine: algorithms, theory and applications. (2013), 44 Artificial Intelligence Review, 103-115. \\
+Audrino, F., Colangelo, D. Semi-parametric forecasts of the implied volatility surface using regression trees. (2009), 20 Statistical Computing, 421-434. \\
+Black, F., Shcoles, M. The Rpicing of Options and Corporate Liabilities. (1973), 81 Journal of Political Economy, 637-654. \\
+Bruce, A. The Market Model of Interest Rate Dynamics. (1997), 7 Mathematical Finance, 127-147. \\
+Li, X., Xie, H., Wang, R., Cai, Y., Coa, J., Wang, F., Min, H., Deng, X. Empirical analysis: stock market prediction via extreme learning machine. (2013), 27 Neural Computing \& Applications, 67-78. \\
+Cao, L., Tay, F. Financial Forecasting using Support Vector Machines. (2001), 10 Neural Computing \& Applications 184-192. \\
+Fletcher, T., Shawe-Taylor, J. Multiple Kernel Learning with Fisher Kernels for High-Frequency Currency Prediction. (2013), 42 Computational Economics, 217-240. \\
+Yu, L., Yue, W., Wang, S., Lai, K. Support vector machine based multiagent ensemble learning for credit risk evaluation. (2010), 37 Expert Systems \& Applications 1351-1360. \\
+Snopek, L. The Complete Guide to Portfolia Construction and Management. (2012) [SEN?] \\
+
 \end{document}
